@@ -70,7 +70,6 @@ import {
     Search20Regular,
 } from "@fluentui/react-icons";
 import { useAuth } from "../auths/AuthContext";
-import { useMediaQuery } from "../hooks/useMediaQuery";
 import TopBar from "../compolayouts/TopBar";
 import { Outlet } from "react-router-dom";
 
@@ -82,7 +81,7 @@ const useClasses = makeStyles({
     },
     navdrawer: {
         minWidth: "200px",
-        "@media (max-width: 768px)": {
+        "@media screen and (max-width: 768px)": {
             display: "none",        // hides drawer on narrow
         },
     },
@@ -109,11 +108,11 @@ const useClasses = makeStyles({
         gridTemplateColumns: "1fr",
         gap: tokens.spacingVerticalM,
         // Mobile first: small padding
-        "@media (min-width: 768px)": {
+        "@media screen and  (min-width: 768px)": {
             padding: tokens.spacingVerticalM,
             gridTemplateColumns: "repeat(2, 1fr)",
         },
-        "@media (min-width: 1024px)": {
+        "@media screen and  (min-width: 1024px)": {
             padding: tokens.spacingVerticalL,
             gridTemplateColumns: "repeat(3, 1fr)",
         },
@@ -210,7 +209,6 @@ export const DashboardLayout = (props: Partial<NavDrawerProps>) => {
     const [pageIndex, setPageIndex] = React.useState(0);
     const afterId = useId("content-after");
 
-    const isNarrow = useMediaQuery("(max-width: 768px)");
     const [searchValue, setSearchValue] = React.useState("");
     const [currentTheme, setCurrentTheme] = React.useState<Theme>(webLightTheme);
 
