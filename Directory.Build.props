@@ -1,0 +1,18 @@
+<Project>
+
+  <PropertyGroup>
+    <LangVersion>13.0</LangVersion>
+    <AnalysisLevel>9.0</AnalysisLevel>
+    <NetFrameworkTargetFramework
+      Condition=" '$(NetFrameworkTargetFramework)' == '' ">net48</NetFrameworkTargetFramework>
+
+    <NetCoreTargetFramework
+      Condition=" '$(NetCoreTargetFramework)' == '' ">net9.0</NetCoreTargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectCapability Include="DynamicDependentFile" />
+    <ProjectCapability Include="DynamicFileNesting" />
+  </ItemGroup>
+
+</Project>

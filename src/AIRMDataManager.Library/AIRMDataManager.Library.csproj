@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>$(NetCoreTargetFramework)</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.Data.SqlClient" />
+    <PackageReference Include="Microsoft.Extensions.Http" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Modules\Authorization\DataAccess\" />
+    <Folder Include="Modules\Authorization\Services\" />
+    <Folder Include="Modules\ECommerce\Brand\DataAccess\" />
+    <Folder Include="Modules\ECommerce\Brand\Services\" />
+    <Folder Include="Modules\ECommerce\Customer\DataAccess\" />
+    <Folder Include="Modules\ECommerce\Customer\Services\" />
+    <Folder Include="Modules\ECommerce\Ordering\DataAccess\" />
+    <Folder Include="Modules\ECommerce\Ordering\Services\" />
+    <Folder Include="Modules\ECommerce\Payment\DataAccess\" />
+    <Folder Include="Modules\ECommerce\Payment\Services\" />
+    <Folder Include="Modules\ECommerce\ProductType\DataAccess\" />
+    <Folder Include="Modules\ECommerce\ProductType\Services\" />
+    <Folder Include="Modules\ECommerce\Product\DataAccess\" />
+    <Folder Include="Modules\ECommerce\Product\Services\" />
+    <Folder Include="Modules\Tourney\Employee\Services\" />
+    <Folder Include="Modules\Tourney\Prize\Services\" />
+  </ItemGroup>
+
+</Project>
