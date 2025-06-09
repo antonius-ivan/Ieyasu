@@ -1,4 +1,4 @@
-// src/global/brandOneNote.ts
+// src/themebrands/brandOneNote.ts
 import type { BrandVariants } from "../types";
 
 /**
@@ -22,10 +22,3 @@ export const brandOneNote: BrandVariants = {
     150: "#F6F2FD",
     160: "#FBF8FE",
 };
-
-// src/themes/oneNoteLightTheme.ts
-//import { createLightTheme } from "../utils/createLightTheme";
-//import { brandOneNote } from "../global/brandOneNote";
-//import type { Theme } from "../types";
-
-//export const oneNoteLightTheme: Theme = createLightTheme(brandOneNote);

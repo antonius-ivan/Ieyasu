@@ -1,4 +1,4 @@
-﻿// src/combust.client/app/themebrand/index.ts
+﻿// src//themebrands/index.ts
 import type { BrandVariants } from "@fluentui/react-components";
 import { createLightTheme, createDarkTheme, Theme } from "@fluentui/react-components";
 

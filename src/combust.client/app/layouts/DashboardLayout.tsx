@@ -30,6 +30,7 @@ import {
     MenuPopover,
     MenuTrigger,
     Switch,
+    Theme,
     Tooltip,
     makeStyles,
     tokens,
@@ -70,6 +71,8 @@ import {
 } from "@fluentui/react-icons";
 import { useAuth } from "../auths/AuthContext";
 import { useMediaQuery } from "../hooks/useMediaQuery";
+import TopBar from "../compolayouts/TopBar";
+import { Outlet } from "react-router-dom";
 
 const useClasses = makeStyles({
     root: {
@@ -79,7 +82,6 @@ const useClasses = makeStyles({
     },
     navdrawer: {
         minWidth: "200px",
-        backgroundColor: "lightpink",
         "@media (max-width: 768px)": {
             display: "none",        // hides drawer on narrow
         },
@@ -98,6 +100,23 @@ const useClasses = makeStyles({
         marginLeft: "8px",
         flexDirection: "column",
         gridRowGap: tokens.spacingVerticalS,
+    },
+    contentBody: {
+        flex: 1,
+        padding: tokens.spacingVerticalS,
+        overflow: "auto",
+        display: "grid",
+        gridTemplateColumns: "1fr",
+        gap: tokens.spacingVerticalM,
+        // Mobile first: small padding
+        "@media (min-width: 768px)": {
+            padding: tokens.spacingVerticalM,
+            gridTemplateColumns: "repeat(2, 1fr)",
+        },
+        "@media (min-width: 1024px)": {
+            padding: tokens.spacingVerticalL,
+            gridTemplateColumns: "repeat(3, 1fr)",
+        },
     },
 });
 
@@ -182,7 +201,6 @@ export const DashboardLayout = (props: Partial<NavDrawerProps>) => {
     const { isAuthenticated, user, login, logout } = useAuth();
 
     const [isOpen, setIsOpen] = React.useState(true);
-    //const [isTypeOverlay, setIsOverlayType] = React.useState<"overlay" | "inline" | undefined>("inline");
     const [isTypeOverlay, setIsOverlayType] = React.useState(false);
 
     const [selectedCategoryValue, setSelectedCategoryValue] = React.useState<
@@ -193,6 +211,8 @@ export const DashboardLayout = (props: Partial<NavDrawerProps>) => {
     const afterId = useId("content-after");
 
     const isNarrow = useMediaQuery("(max-width: 768px)");
+    const [searchValue, setSearchValue] = React.useState("");
+    const [currentTheme, setCurrentTheme] = React.useState<Theme>(webLightTheme);
 
     const handleNavigationClick = () => {
         // advance to next index (wrap around)
@@ -208,21 +228,15 @@ export const DashboardLayout = (props: Partial<NavDrawerProps>) => {
         setIsOpen(!isOpen); // <-- flip the state
     };
 
-    // 3) log or swap every time it changes
-    React.useEffect(() => {
-        console.log(`Viewport is ${isNarrow ? "≤ 768px" : "> 768px"}`);
-    }, [isNarrow]);
+    //// 3) log or swap every time it changes
+    //React.useEffect(() => {
+    //    console.log(`Viewport is ${isNarrow ? "≤ 768px" : "> 768px"}`);
+    //}, [isNarrow]);
 
     return (
-        <FluentProvider theme={webLightTheme}>
+        <FluentProvider theme={currentTheme}>
             <div className={classes.root}>
                 <NavDrawer
-                    // This a controlled example,
-                    // so don't use these props
-                    // defaultSelectedValue="7"
-                    // defaultSelectedCategoryValue="6"
-                    // defaultOpenCategories={['6']}
-                    // multiple={isMultiple}
                     onNavItemSelect={handleNavigationClick}
                     tabbable={true} // enables keyboard tabbing
                     selectedValue={selectedValue}
@@ -294,17 +308,16 @@ export const DashboardLayout = (props: Partial<NavDrawerProps>) => {
                     </NavDrawerBody>
                 </NavDrawer>
                 <div className={classes.content}>
-                    <Body1>
-                        {isNarrow
-                            ? "You're in a narrow viewport – mobile layout!"
-                            : "Desktop viewport – full layout."}
-                    </Body1>
-                    <div className={classes.field}>
-                        <Button appearance="subtle" onClick={handleToggleOpen} icon={<ArrowAutofitContent />} >
-                        </Button>
-                        <Button appearance="subtle" onClick={handleNavigationClick} icon={<TableMoveBelow />} >
-                        </Button>
-                        <Button appearance="subtle" icon={<WhiteboardOff />} />
+                    <TopBar
+                        onTopToggleOpen={handleToggleOpen}
+                        onTopNavigateClick={() => handleNavigationClick(null as any, { value: selectedValue })}
+                        isTopTypeOverlay={isTypeOverlay}
+                        setTopIsOverlayType={setIsOverlayType}
+                        currentTopTheme={currentTheme}
+                        onThemeTopChange={setCurrentTheme}
+                    />
+            
+                    <div className={classes.contentBody}>
                         <Menu
                             checkedValues={isTypeOverlay
                                 ? { "drawer-mode": ["drawer-mode"] }
@@ -328,28 +341,7 @@ export const DashboardLayout = (props: Partial<NavDrawerProps>) => {
                                 </MenuList>
                             </MenuPopover>
                         </Menu>
-                        <Button appearance="subtle" icon={<PaintBucket />} />
-                        <div>
-                            {isAuthenticated && user ? (
-                                <>
-                                    <span>Logged in as {user.email}</span>
-                                    <Button size="small" onClick={logout}>
-                                        Logout
-                                    </Button>
-                                </>
-                            ) : (
-                                <Button appearance="subtle" onClick={login} icon={<Person />} />//Login
-                            )}
-                        </div>
-                        <div>
-                            <Input
-                                contentAfter={<Search aria-label="Enter by voice" />}
-                                id={afterId}
-                            />
-                            {/*<Body1>*/}
-                            {/*    An input with a button in the <code>contentAfter</code> slot.*/}
-                            {/*</Body1>*/}
-                        </div>
+                        <Outlet />
                     </div>
 
                 </div>

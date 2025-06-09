@@ -1,4 +1,6 @@
-﻿import { Radio, RadioGroup, Switch, Table, TableBody, TableCell, TableHeader, TableHeaderCell, TableRow, useId } from "@fluentui/react-components";
+﻿//src\pages\RealWeatherForecast.tsx
+
+import { Radio, RadioGroup, Switch, Table, TableBody, TableCell, TableHeader, TableHeaderCell, TableRow, useId } from "@fluentui/react-components";
 import React, { useEffect, useState } from "react";
 
 interface Forecast {
