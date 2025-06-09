@@ -1,4 +1,5 @@
-﻿import * as React from "react";
+﻿//\src\combust.client\app\layouts\DashboardLayout.tsx
+import * as React from "react";
 import {
     AppItem,
     Hamburger,
@@ -68,6 +69,7 @@ import {
     Search20Regular,
 } from "@fluentui/react-icons";
 import { useAuth } from "../auths/AuthContext";
+import { useMediaQuery } from "../hooks/useMediaQuery";
 
 const useClasses = makeStyles({
     root: {
@@ -77,19 +79,18 @@ const useClasses = makeStyles({
     },
     navdrawer: {
         minWidth: "200px",
-        backgroundColor: "lightpink"
-    },
-    desktopNavDrawer: {
+        backgroundColor: "lightpink",
         "@media (max-width: 768px)": {
-            display: "none",
+            display: "none",        // hides drawer on narrow
         },
     },
     content: {
-        flex: "1",
+        flex: 1,
         padding: "16px",
-        display: "grid",
-        justifyContent: "flex-start",
-        alignItems: "flex-start",
+        // push content to full width when drawer is hidden
+        "@media (max-width: 768px)": {
+            padding: "8px",
+        },
     },
     field: {
         display: "flex",
@@ -191,6 +192,8 @@ export const DashboardLayout = (props: Partial<NavDrawerProps>) => {
     const [pageIndex, setPageIndex] = React.useState(0);
     const afterId = useId("content-after");
 
+    const isNarrow = useMediaQuery("(max-width: 768px)");
+
     const handleNavigationClick = () => {
         // advance to next index (wrap around)
         const next = (pageIndex + 1) % allPages.length;
@@ -204,6 +207,11 @@ export const DashboardLayout = (props: Partial<NavDrawerProps>) => {
     const handleToggleOpen = () => {
         setIsOpen(!isOpen); // <-- flip the state
     };
+
+    // 3) log or swap every time it changes
+    React.useEffect(() => {
+        console.log(`Viewport is ${isNarrow ? "≤ 768px" : "> 768px"}`);
+    }, [isNarrow]);
 
     return (
         <FluentProvider theme={webLightTheme}>
@@ -286,6 +294,11 @@ export const DashboardLayout = (props: Partial<NavDrawerProps>) => {
                     </NavDrawerBody>
                 </NavDrawer>
                 <div className={classes.content}>
+                    <Body1>
+                        {isNarrow
+                            ? "You're in a narrow viewport – mobile layout!"
+                            : "Desktop viewport – full layout."}
+                    </Body1>
                     <div className={classes.field}>
                         <Button appearance="subtle" onClick={handleToggleOpen} icon={<ArrowAutofitContent />} >
                         </Button>
@@ -325,7 +338,7 @@ export const DashboardLayout = (props: Partial<NavDrawerProps>) => {
                                     </Button>
                                 </>
                             ) : (
-                                    <Button appearance="subtle" onClick={login} icon={<Person />} />//Login
+                                <Button appearance="subtle" onClick={login} icon={<Person />} />//Login
                             )}
                         </div>
                         <div>
@@ -338,6 +351,7 @@ export const DashboardLayout = (props: Partial<NavDrawerProps>) => {
                             {/*</Body1>*/}
                         </div>
                     </div>
+
                 </div>
             </div>
         </FluentProvider>   
